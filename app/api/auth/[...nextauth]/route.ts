@@ -7,8 +7,8 @@ import { connectToDatabase } from '../../../../utils/database';
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
   ],
   callbacks: {
@@ -25,18 +25,25 @@ const handler = NextAuth({
         // serverless => lambda -> dynamodb
         await connectToDatabase();
         // check if a user already exists
-        const userExists = await User.findOne({
-          email: profile.email,
-        });
-        // if not, create a new user
-        if (!userExists) {
-          await User.create({
+        if (profile) {
+          const userExists = await User.findOne({
             email: profile.email,
-            username: profile.name.replace(' ', '').toLowerCase(),
-            image: profile.picture,
           });
+          // if not, create a new user
+          if (!userExists) {
+            await User.create({
+              email: profile.email,
+              username: profile.name
+                ? profile.name.replace(' ', '').toLowerCase()
+                : '',
+              image: profile.picture,
+            });
+          }
+          return true;
+        } else {
+          console.log('Profile is undefined');
+          return false;
         }
-        return true;
       } catch (error) {
         console.log(error);
         return false;
