@@ -6,8 +6,8 @@ interface ProfileProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   desc: string;
   data: IPrompt[];
-  handleEdit: (post: IPrompt) => void;
-  handleDelete: (post: IPrompt) => void;
+  handleEdit?: (post: IPrompt) => void;
+  handleDelete?: (post: IPrompt) => void;
 }
 
 const Profile: React.FC<ProfileProps> = ({

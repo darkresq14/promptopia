@@ -33,10 +33,23 @@ const PromptCard: React.FC<PromptCardProps> = ({
     }, 3000);
   };
 
+  const handleUserClick = () => {
+    if (session?.user.id === post.creator?._id) {
+      router.push('/profile');
+    } else {
+      router.push(
+        `/profile/${post.creator?._id}?username=${post.creator?.username}`
+      );
+    }
+  };
+
   return post.creator ? (
     <div className='prompt_card'>
       <div className='item-start flex justify-between gap-5'>
-        <div className='flex flex-1 cursor-pointer items-center justify-start gap-3'>
+        <div
+          className='flex flex-1 cursor-pointer items-center justify-start gap-3'
+          onClick={handleUserClick}
+        >
           <Image
             src={post.creator.image}
             alt='user_image'

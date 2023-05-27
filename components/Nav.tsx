@@ -56,7 +56,9 @@ const Nav = () => {
             </Link>
             <button
               type='button'
-              onClick={() => signOut()}
+              onClick={() =>
+                signOut({ callbackUrl: `${window.location.origin}` })
+              }
               className='outline_btn'
             >
               Sign Out
@@ -78,7 +80,11 @@ const Nav = () => {
                 <button
                   type='button'
                   key={provider.name}
-                  onClick={() => signIn(provider.id)}
+                  onClick={() =>
+                    signIn(provider.id, {
+                      callbackUrl: `${window.location.origin}`,
+                    })
+                  }
                   className='black_btn'
                 >
                   Sign In
@@ -120,7 +126,9 @@ const Nav = () => {
                   type='button'
                   onClick={() => {
                     setToggleDropdown(false);
-                    signOut();
+                    signOut({
+                      callbackUrl: `${window.location.origin}/profile`,
+                    });
                   }}
                   className='black_btn mt-5 w-full'
                 >
@@ -136,7 +144,11 @@ const Nav = () => {
                 <button
                   type='button'
                   key={provider.name}
-                  onClick={() => signIn(provider.id)}
+                  onClick={() =>
+                    signIn(provider.id, {
+                      callbackUrl: `${window.location.origin}`,
+                    })
+                  }
                   className='black_btn'
                 >
                   Sign In
