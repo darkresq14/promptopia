@@ -16,7 +16,11 @@ const PromptCardList: React.FC<PromptCardListProps> = ({
   return (
     <div className='prompt_layout mt-16'>
       {data.map((post) => (
-        <PromptCard key={post._id} post={post} handleTagClick={(tag) => {}} />
+        <PromptCard
+          key={post._id}
+          post={post}
+          handleTagClick={handleTagClick}
+        />
       ))}
     </div>
   );
@@ -29,6 +33,12 @@ const Feed = () => {
   );
   const [posts, setPosts] = useState<IPrompt[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPrompt[]>([]);
+
+  const handleTagClick = (tag: string) => {
+    handleSearchChange({
+      target: { value: tag },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -78,7 +88,7 @@ const Feed = () => {
           required
         />
       </form>
-      <PromptCardList data={filteredPosts} handleTagClick={() => {}} />
+      <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
     </section>
   );
 };
