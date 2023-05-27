@@ -24,10 +24,31 @@ const PromptCardList: React.FC<PromptCardListProps> = ({
 
 const Feed = () => {
   const [searchText, setSearchText] = useState('');
-  const [posts, setPosts] = useState([]);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+  const [posts, setPosts] = useState<IPrompt[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<IPrompt[]>([]);
 
-  const handleSearchChange = (e: React.FormEvent) => {
-    return e.target;
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    searchTimeout !== null && clearTimeout(searchTimeout);
+    setSearchText(inputValue);
+
+    // debounce method
+    setSearchTimeout(
+      setTimeout(() => {
+        const newFilteredPosts = posts.filter(
+          (post) =>
+            post.prompt.includes(inputValue) ||
+            post.creator?.username.includes(inputValue) ||
+            post.creator?.email.includes(inputValue) ||
+            post.tag.includes(inputValue)
+        );
+
+        setFilteredPosts(newFilteredPosts);
+      }, 200)
+    );
   };
 
   useEffect(() => {
@@ -41,19 +62,23 @@ const Feed = () => {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    setFilteredPosts(posts);
+  }, [posts]);
+
   return (
     <section className='feed'>
       <form className='flex-center relative w-full'>
         <input
           type='text'
           className='search_input peer'
-          placeholder='Search for a tag or a username'
+          placeholder='Search for a prompt'
           value={searchText}
           onChange={handleSearchChange}
           required
         />
       </form>
-      <PromptCardList data={posts} handleTagClick={() => {}} />
+      <PromptCardList data={filteredPosts} handleTagClick={() => {}} />
     </section>
   );
 };
