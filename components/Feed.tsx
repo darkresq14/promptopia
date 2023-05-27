@@ -34,6 +34,15 @@ const Feed = () => {
   const [posts, setPosts] = useState<IPrompt[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPrompt[]>([]);
 
+  const searchInterval = 200;
+
+  const fetchPosts = async () => {
+    const response = await fetch('/api/prompt');
+    const data = await response.json();
+
+    setPosts(data);
+  };
+
   const handleTagClick = (tag: string) => {
     handleSearchChange({
       target: { value: tag },
@@ -62,13 +71,6 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
-      const data = await response.json();
-
-      setPosts(data);
-    };
-
     fetchPosts();
   }, []);
 
