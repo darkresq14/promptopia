@@ -34,8 +34,6 @@ const Feed = () => {
   const [posts, setPosts] = useState<IPrompt[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPrompt[]>([]);
 
-  const searchInterval = 200;
-
   const fetchPosts = async () => {
     const response = await fetch('/api/prompt');
     const data = await response.json();
