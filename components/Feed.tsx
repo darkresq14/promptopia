@@ -41,6 +41,10 @@ const Feed = () => {
     setPosts(data);
   };
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   const handleTagClick = (tag: string) => {
     handleSearchChange({
       target: { value: tag },
@@ -68,10 +72,6 @@ const Feed = () => {
     );
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   return (
     <section className='feed'>
       <form className='flex-center relative w-full'>
@@ -85,9 +85,9 @@ const Feed = () => {
         />
       </form>
       {searchText !== '' ? (
-        <PromptCardList data={posts} handleTagClick={handleTagClick} />
-      ) : (
         <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+      ) : (
+        <PromptCardList data={posts} handleTagClick={handleTagClick} />
       )}
     </section>
   );
