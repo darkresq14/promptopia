@@ -85,7 +85,7 @@ const Feed = () => {
         />
       </form>
       {searchText !== '' ? (
-        <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+        <PromptCardList data={posts} handleTagClick={handleTagClick} />
       ) : (
         <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
       )}
