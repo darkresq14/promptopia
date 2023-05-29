@@ -39,6 +39,7 @@ const Feed = () => {
     const data = await response.json();
 
     setPosts(data);
+    setFilteredPosts(data);
   };
 
   const handleTagClick = (tag: string) => {
@@ -71,10 +72,6 @@ const Feed = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  useEffect(() => {
-    setFilteredPosts(posts);
-  }, [posts]);
 
   return (
     <section className='feed'>
