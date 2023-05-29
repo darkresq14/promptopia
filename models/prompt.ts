@@ -3,7 +3,7 @@ import { IUser } from './user';
 
 export interface IPrompt {
   _id?: string;
-  creator?: IUser;
+  creator: IUser;
   prompt: string;
   tag: string;
 }
