@@ -39,7 +39,6 @@ const Feed = () => {
     const data = await response.json();
 
     setPosts(data);
-    setFilteredPosts(data);
   };
 
   const handleTagClick = (tag: string) => {
@@ -85,7 +84,11 @@ const Feed = () => {
           required
         />
       </form>
-      <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+      {searchText !== '' ? (
+        <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+      ) : (
+        <PromptCardList data={filteredPosts} handleTagClick={handleTagClick} />
+      )}
     </section>
   );
 };
